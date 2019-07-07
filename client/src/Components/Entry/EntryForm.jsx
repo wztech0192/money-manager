@@ -6,61 +6,47 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import NumberFormat from 'react-number-format';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { DateTimePicker } from '@material-ui/pickers';
+
 import CalenderIcon from '@material-ui/icons/CalendarToday';
 import Fab from '@material-ui/core/Fab';
 import HearIcon from '@material-ui/icons/Hearing';
 import TypeSelector from './TypeSelector';
+import NumberMask from '../Utilities/NumberMask';
+import { connect } from 'react-redux';
+import {
+  onSelectType,
+  onSelectTab
+} from '../../stores/recordStore/recordAction';
 
-const NumberFormatCustom = props => {
-  const { inputRef, onChange, ...other } = props;
-
-  return (
-    <NumberFormat
-      {...other}
-      getInputRef={inputRef}
-      onValueChange={values => {
-        onChange({
-          target: {
-            value: values.value
-          }
-        });
-      }}
-      thousandSeparator
-    />
-  );
+const mapStateToProps = state => {
+  const { selectTab, selectType } = state.record;
+  return {
+    selectTab,
+    selectType
+  };
 };
+console.log(onSelectTab);
+const mapDispatchToProps = { onSelectType, onSelectTab };
 
-class Entry extends Component {
-  state = {
-    selectedTab: 0,
-    selectedType: null
-  };
-
-  onSelectType = e => {
-    if (e) {
-      this.setState({ selectedType: e.target.textContent });
-    } else {
-      this.setState({ selectedType: null });
-    }
-  };
-
-  handleChange = (e, newValue) => {
-    this.setState({
-      selectedTab: newValue
-    });
-  };
+class EntryForm extends Component {
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      selectTab,
+      selectType,
+      onSelectType,
+      onSelectTab
+    } = this.props;
     return (
       <Grid container>
         <Grid item xs={12}>
           <Paper square>
             <Tabs
-              value={this.state.selectedTab}
-              onChange={this.handleChange}
+              aria-label="select income or outcome"
+              value={selectTab}
+              onChange={onSelectTab}
               indicatorColor="primary"
               textColor="primary"
               variant="fullWidth"
@@ -75,14 +61,16 @@ class Entry extends Component {
             <Grid container>
               <Grid item xs={12}>
                 <TypeSelector
+                  aria-label="select outcome/income type"
                   classes={classes}
-                  selectedType={this.state.selectedType}
-                  onSelectType={this.onSelectType}
+                  selectedType={selectType}
+                  onSelectType={onSelectType}
                 />
               </Grid>
               <Grid item xs={12} className={classes.inputGrid}>
                 <DateTimePicker
                   disablePast
+                  aria-label="date input"
                   label="Date"
                   showTodayButton
                   inputVariant="outlined"
@@ -94,6 +82,7 @@ class Entry extends Component {
               </Grid>
               <Grid item xs={9} className={classes.inputGrid}>
                 <TextField
+                  aria-label="money input"
                   className={classes.formControl}
                   variant="outlined"
                   label="Money"
@@ -101,7 +90,7 @@ class Entry extends Component {
                     classes: {
                       input: classes.input
                     },
-                    inputComponent: NumberFormatCustom,
+                    inputComponent: NumberMask,
                     startAdornment: (
                       <InputAdornment position="start">$</InputAdornment>
                     )
@@ -109,9 +98,8 @@ class Entry extends Component {
                   fullWidth
                 />
               </Grid>
-
               <Grid item xs={3} className={classes.fab}>
-                <Fab size="small">
+                <Fab size="small" aria-label="click to read all inputs">
                   <HearIcon />
                 </Fab>
               </Grid>
@@ -158,4 +146,7 @@ const style = theme => ({
   }
 });
 
-export default withStyles(style)(Entry);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(style)(EntryForm));

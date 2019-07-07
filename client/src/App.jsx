@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import Header from './Components/Layout/Header';
+import Header from './components/Layout/Header';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Container from './Components/Layout/Container';
+import Container from './components/Layout/Container';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+import moment from '@date-io/moment';
+import store from './stores';
+import { Provider } from 'react-redux';
 
 class App extends Component {
   render() {
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Router>
-          <Header />
-          <Container />
-        </Router>
-      </MuiPickersUtilsProvider>
+      <Provider store={store}>
+        <MuiPickersUtilsProvider utils={moment}>
+          <Router>
+            <Header />
+            <Container />
+          </Router>
+        </MuiPickersUtilsProvider>
+      </Provider>
     );
   }
 }
