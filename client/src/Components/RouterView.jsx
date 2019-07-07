@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Home from './Home';
+import Dashboard from './Dashboard';
+import Entry from './Entry';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 class RouterView extends Component {
@@ -15,9 +16,10 @@ class RouterView extends Component {
     const { location } = this.props;
     return (
       <TransitionGroup>
-        <CSSTransition key={location.key} classNames="page" timeout={200}>
+        <CSSTransition key={location.key} classNames="page" timeout={300}>
           <Switch location={location}>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/Entry" component={Entry} />
           </Switch>
         </CSSTransition>
       </TransitionGroup>
