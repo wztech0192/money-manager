@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import Entry from './Entry';
+import EntryForm from './Entry/EntryForm';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 class RouterView extends Component {
@@ -19,7 +19,7 @@ class RouterView extends Component {
         <CSSTransition key={location.key} classNames="page" timeout={300}>
           <Switch location={location}>
             <Route exact path="/" component={Dashboard} />
-            <Route exact path="/Entry" component={Entry} />
+            <Route exact path="/Entry" component={EntryForm} />
           </Switch>
         </CSSTransition>
       </TransitionGroup>

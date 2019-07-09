@@ -4,132 +4,100 @@ import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { DateTimePicker } from '@material-ui/pickers';
-
-import CalenderIcon from '@material-ui/icons/CalendarToday';
-import Fab from '@material-ui/core/Fab';
-import HearIcon from '@material-ui/icons/Hearing';
+import Typography from '@material-ui/core/Typography';
+import FormFields from './FormFields';
 import TypeSelector from './TypeSelector';
-import NumberMask from '../Utilities/NumberMask';
+import FormActions from './FormActions';
 import { connect } from 'react-redux';
-import {
-  onSelectType,
-  onSelectTab
-} from '../../stores/recordStore/recordAction';
+import * as recordActions from '../../stores/recordStore/recordAction';
 
-const mapStateToProps = state => {
-  const { selectTab, selectType } = state.record;
-  return {
-    selectTab,
-    selectType
-  };
-};
-console.log(onSelectTab);
-const mapDispatchToProps = { onSelectType, onSelectTab };
+const mapStateToProps = ({ record }) => record;
+const mapDispatchToProps = recordActions;
 
 class EntryForm extends Component {
   render() {
     const {
       classes,
       selectTab,
-      selectType,
+      onSelectTab,
       onSelectType,
-      onSelectTab
+      selectType,
+      onSubmitRecord,
+      onClearRecord,
+      onEnterRecordMoney,
+      onEnterRecordDate,
+      onEnterRecordSummary,
+      recordSummary,
+      recordMoney,
+      recordDateTime
     } = this.props;
     return (
-      <Grid container>
-        <Grid item xs={12}>
-          <Paper square>
-            <Tabs
-              aria-label="select income or outcome"
-              value={selectTab}
-              onChange={onSelectTab}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-            >
-              <Tab label="Out" />
-              <Tab label="In" />
-            </Tabs>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper square className={classes.entryContainer}>
-            <Grid container>
-              <Grid item xs={12}>
-                <TypeSelector
-                  aria-label="select outcome/income type"
-                  classes={classes}
-                  selectedType={selectType}
-                  onSelectType={onSelectType}
-                />
-              </Grid>
-              <Grid item xs={12} className={classes.inputGrid}>
-                <DateTimePicker
-                  disablePast
-                  aria-label="date input"
-                  label="Date"
-                  showTodayButton
-                  inputVariant="outlined"
-                  InputProps={{
-                    endAdornment: <CalenderIcon color="action" />
-                  }}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={9} className={classes.inputGrid}>
-                <TextField
-                  aria-label="money input"
-                  className={classes.formControl}
-                  variant="outlined"
-                  label="Money"
-                  InputProps={{
-                    classes: {
-                      input: classes.input
-                    },
-                    inputComponent: NumberMask,
-                    startAdornment: (
-                      <InputAdornment position="start">$</InputAdornment>
-                    )
-                  }}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={3} className={classes.fab}>
-                <Fab size="small" aria-label="click to read all inputs">
-                  <HearIcon />
-                </Fab>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField label="Notes (Optional)" fullWidth multiline />
-              </Grid>
-              <Grid container className={classes.btnGrid}>
-                <Grid item xs={6}>
-                  <Button color="primary" fullWidth>
-                    Submit
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button color="secondary" fullWidth>
-                    Clear
-                  </Button>
-                </Grid>
-              </Grid>
+      <div className="container">
+        <div className="max-width">
+          <Typography align="center" variant="h5" gutterBottom>
+            Record Entry
+          </Typography>
+          <Grid container>
+            <Grid item xs={12}>
+              <Paper square>
+                <Tabs
+                  aria-label="select income or outcome"
+                  value={selectTab}
+                  onChange={onSelectTab}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  variant="fullWidth"
+                >
+                  <Tab label="Out" />
+                  <Tab label="In" />
+                </Tabs>
+              </Paper>
             </Grid>
-          </Paper>
-        </Grid>
-      </Grid>
+            <Grid item xs={12}>
+              <Paper square className={classes.entryContainer}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <TypeSelector
+                      aria-label="select outcome/income type"
+                      classes={classes}
+                      onSelectType={onSelectType}
+                      selectType={selectType}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormFields
+                      aria-label="all form fields"
+                      classes={classes}
+                      onEnterRecordMoney={onEnterRecordMoney}
+                      onEnterRecordDate={onEnterRecordDate}
+                      onEnterRecordSummary={onEnterRecordSummary}
+                      recordSummary={recordSummary}
+                      recordMoney={recordMoney}
+                      recordDateTime={recordDateTime}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormActions
+                      aria-label="all form actions such as submit and clear"
+                      classes={classes}
+                      onSubmitRecord={onSubmitRecord}
+                      onClearRecord={onClearRecord}
+                    />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+          </Grid>
+        </div>
+      </div>
     );
   }
 }
 
-const style = theme => ({
-  fab: {
+const style = () => ({
+  Fab: {
     textAlign: 'center',
-    paddingTop: 15
+    marginTop: 10
   },
   entryContainer: {
     padding: 10

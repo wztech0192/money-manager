@@ -1,16 +1,29 @@
 import {
   SUBMIT_RECORD,
+  CLEAR_RECORD,
   SELECT_RECORD_TYPE,
-  SELECT_RECORD_TAB
+  SELECT_RECORD_TAB,
+  ENTER_RECORD_DATE,
+  ENTER_RECORD_MONEY,
+  DISPLAY_RECORD_ERROR,
+  ENTER_RECORD_SUMMARY
 } from '../actionTypes';
 
 const defaultState = {
   selectType: null,
-  selectTab: 0
+  selectTab: 0,
+  recordDateTime: new Date(),
+  recordSummary: '',
+  recordMoney: '',
+  recordErrors: []
 };
 
 export default (state = defaultState, action) => {
   switch (action.type) {
+    case SUBMIT_RECORD:
+      return defaultState;
+    case CLEAR_RECORD:
+      return defaultState;
     case SELECT_RECORD_TYPE:
       return {
         ...state,
@@ -21,9 +34,28 @@ export default (state = defaultState, action) => {
         ...state,
         selectTab: action.selectTab
       };
-    case SUBMIT_RECORD:
-      return {};
+    case ENTER_RECORD_DATE:
+      return {
+        ...state,
+        recordDateTime: action.recordDateTime
+      };
+    case ENTER_RECORD_MONEY:
+      return {
+        ...state,
+        recordMoney: action.recordMoney
+      };
+    case ENTER_RECORD_SUMMARY:
+      return {
+        ...state,
+        recordSummary: action.recordSummary
+      };
+    case DISPLAY_RECORD_ERROR:
+      return {
+        ...state,
+        recordErrors: action.recordErrors
+      };
     default:
       return state;
   }
+  return state;
 };

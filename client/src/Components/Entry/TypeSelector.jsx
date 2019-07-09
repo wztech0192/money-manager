@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Chip from '@material-ui/core/Chip';
 
 const chips = [
@@ -29,16 +29,17 @@ const chips = [
 
 let selectedGroup = 'All';
 
-export default class TypeSelector extends Component {
+export default class TypeSelector extends PureComponent {
   onSelectGroup = e => {
     if (selectedGroup !== e.target.textContent) {
       selectedGroup = e.target.textContent;
       this.props.onSelectType(null);
+      this.forceUpdate();
     }
   };
 
   render() {
-    const { classes, onSelectType, selectedType } = this.props;
+    const { classes, onSelectType, selectType } = this.props;
     return (
       <Fragment>
         <div>
@@ -75,7 +76,7 @@ export default class TypeSelector extends Component {
                   clickable
                   label={type}
                   size="small"
-                  color={selectedType === type ? 'primary' : 'default'}
+                  color={selectType === type ? 'primary' : 'default'}
                   className={classes.chip}
                   onClick={onSelectType}
                 />
