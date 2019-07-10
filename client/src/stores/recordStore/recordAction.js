@@ -3,6 +3,7 @@ import {
   CLEAR_RECORD,
   SELECT_RECORD_TYPE,
   SELECT_RECORD_TAB,
+  SELECT_RECORD_GROUP,
   ENTER_RECORD_DATE,
   ENTER_RECORD_MONEY,
   ENTER_RECORD_SUMMARY,
@@ -21,6 +22,12 @@ export const onSelectTab = (e, selectTab) => dispatch =>
     selectTab
   });
 
+export const onSelectGroup = e => dispatch =>
+  dispatch({
+    type: SELECT_RECORD_GROUP,
+    selectGroup: e.target.textContent
+  });
+
 export const onEnterRecordDate = recordDateTime => dispatch =>
   dispatch({ type: ENTER_RECORD_DATE, recordDateTime });
 
@@ -30,8 +37,8 @@ export const onEnterRecordMoney = e => dispatch =>
 export const onEnterRecordSummary = e => dispatch =>
   dispatch({ type: ENTER_RECORD_SUMMARY, recordSummary: e.target.value });
 
-export const onSubmitRecord = () => (dispatch, state) => {
-  console.log(state);
+export const onSubmitRecord = () => (dispatch, getState) => {
+  console.log(getState());
 };
 //dispatch({ type: SUBMIT_RECORD });
 

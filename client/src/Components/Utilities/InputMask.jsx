@@ -1,7 +1,7 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
 
-export default ({ inputRef, onChange, ...other }) => (
+export const NumberMask = ({ inputRef, onChange, ...other }) => (
   <NumberFormat
     {...other}
     getInputRef={inputRef}

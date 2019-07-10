@@ -1,6 +1,7 @@
 import {
   SUBMIT_RECORD,
   CLEAR_RECORD,
+  SELECT_RECORD_GROUP,
   SELECT_RECORD_TYPE,
   SELECT_RECORD_TAB,
   ENTER_RECORD_DATE,
@@ -12,6 +13,7 @@ import {
 const defaultState = {
   selectType: null,
   selectTab: 0,
+  selectGroup: 'All',
   recordDateTime: new Date(),
   recordSummary: '',
   recordMoney: '',
@@ -28,6 +30,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         selectType: action.selectType
+      };
+    case SELECT_RECORD_GROUP:
+      return {
+        ...state,
+        selectGroup: action.selectGroup
       };
     case SELECT_RECORD_TAB:
       return {
@@ -57,5 +64,4 @@ export default (state = defaultState, action) => {
     default:
       return state;
   }
-  return state;
 };

@@ -5,7 +5,7 @@ import EntryForm from './Entry/EntryForm';
 class Home extends Component {
   render() {
     return (
-      <div className="container">
+      <div>
         <Typography variant="h5" align="center">
           Dashboard
         </Typography>

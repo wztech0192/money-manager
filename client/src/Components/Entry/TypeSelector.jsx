@@ -1,5 +1,20 @@
 import React, { PureComponent, Fragment } from 'react';
 import Chip from '@material-ui/core/Chip';
+import { connect } from 'react-redux';
+import {
+  onSelectType,
+  onSelectGroup
+} from '../../stores/recordStore/recordAction';
+
+const mapStateToProps = ({ record }) => ({
+  selectGroup: record.selectGroup,
+  selectType: record.selectType
+});
+
+const mapDispatchToProps = {
+  onSelectType,
+  onSelectGroup
+};
 
 const chips = [
   {
@@ -27,19 +42,15 @@ const chips = [
   }
 ];
 
-let selectedGroup = 'All';
-
-export default class TypeSelector extends PureComponent {
-  onSelectGroup = e => {
-    if (selectedGroup !== e.target.textContent) {
-      selectedGroup = e.target.textContent;
-      this.props.onSelectType(null);
-      this.forceUpdate();
-    }
-  };
-
+class TypeSelector extends PureComponent {
   render() {
-    const { classes, onSelectType, selectType } = this.props;
+    const {
+      classes,
+      onSelectType,
+      onSelectGroup,
+      selectGroup,
+      selectType
+    } = this.props;
     return (
       <Fragment>
         <div>
@@ -50,9 +61,9 @@ export default class TypeSelector extends PureComponent {
               variant="outlined"
               label={group}
               size="small"
-              color={selectedGroup === group ? 'primary' : 'default'}
+              color={selectGroup === group ? 'primary' : 'default'}
               className={classes.chip}
-              onClick={this.onSelectGroup}
+              onClick={onSelectGroup}
             />
           ))}
           <Chip
@@ -68,7 +79,7 @@ export default class TypeSelector extends PureComponent {
         <div>
           {chips.map(
             ({ group, types }) =>
-              (selectedGroup === 'All' || selectedGroup === group) &&
+              (selectGroup === 'All' || selectGroup === group) &&
               types &&
               types.map(type => (
                 <Chip
@@ -82,7 +93,7 @@ export default class TypeSelector extends PureComponent {
                 />
               ))
           )}
-          {selectedGroup !== 'All' && (
+          {selectGroup !== 'All' && (
             <Chip clickable label="+" size="small" className={classes.chip} />
           )}
         </div>
@@ -91,3 +102,8 @@ export default class TypeSelector extends PureComponent {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TypeSelector);
