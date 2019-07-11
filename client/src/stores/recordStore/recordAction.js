@@ -37,9 +37,8 @@ export const onEnterRecordMoney = e => dispatch =>
 export const onEnterRecordSummary = e => dispatch =>
   dispatch({ type: ENTER_RECORD_SUMMARY, recordSummary: e.target.value });
 
+export const onClearRecord = () => dispatch => dispatch({ type: CLEAR_RECORD });
+
 export const onSubmitRecord = () => (dispatch, getState) => {
   console.log(getState());
 };
-//dispatch({ type: SUBMIT_RECORD });
-
-export const onClearRecord = () => dispatch => dispatch({ type: CLEAR_RECORD });
