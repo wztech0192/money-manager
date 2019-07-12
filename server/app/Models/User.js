@@ -35,6 +35,13 @@ class User extends Model {
     return this.hasMany('App/Models/Token');
   }
 
+  /**
+   * Hide password field
+   */
+  static get hidden() {
+    return ['password'];
+  }
+
   records() {
     return this.hasMany('App/Models/Record');
   }

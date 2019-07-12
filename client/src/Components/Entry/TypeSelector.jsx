@@ -3,8 +3,11 @@ import Chip from '@material-ui/core/Chip';
 import { connect } from 'react-redux';
 import {
   onSelectType,
-  onSelectGroup
+  onSelectGroup,
+  onCreateType,
+  onCreateGroup
 } from '../../stores/recordStore/recordAction';
+import CreateGTModal from '../Modals/CreateGTModal';
 
 const mapStateToProps = ({ record }) => ({
   selectGroup: record.selectGroup,
@@ -13,7 +16,9 @@ const mapStateToProps = ({ record }) => ({
 
 const mapDispatchToProps = {
   onSelectType,
-  onSelectGroup
+  onSelectGroup,
+  onCreateType,
+  onCreateGroup
 };
 
 const chips = [
@@ -43,6 +48,30 @@ const chips = [
 ];
 
 class TypeSelector extends PureComponent {
+  state = {
+    openModal: false,
+    modalInfo: {
+      label: 'Group',
+      submitEvent: this.props.onCreateGroup
+    }
+  };
+
+  onOpenModal = type => () => {
+    console.log(type);
+    this.setState(state => ({
+      openModal: !state.modalOpen,
+      modalInfo: {
+        label: type,
+        submitEvent:
+          type === 'Group' ? this.props.onCreateGroup : this.props.onCreateType
+      }
+    }));
+  };
+
+  onCloseModal = () => {
+    this.setState({ openModal: false });
+  };
+
   render() {
     const {
       classes,
@@ -72,6 +101,7 @@ class TypeSelector extends PureComponent {
             label="+"
             size="small"
             className={classes.chip}
+            onClick={this.onOpenModal('Group')}
           />
         </div>
         <hr />
@@ -94,10 +124,21 @@ class TypeSelector extends PureComponent {
               ))
           )}
           {selectGroup !== 'All' && (
-            <Chip clickable label="+" size="small" className={classes.chip} />
+            <Chip
+              clickable
+              label="+"
+              size="small"
+              className={classes.chip}
+              onClick={this.onOpenModal('Type')}
+            />
           )}
         </div>
         <hr />
+        <CreateGTModal
+          open={this.state.openModal}
+          {...this.state.modalInfo}
+          onCloseModal={this.onCloseModal}
+        />
       </Fragment>
     );
   }

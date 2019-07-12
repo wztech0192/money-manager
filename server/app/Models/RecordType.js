@@ -4,6 +4,13 @@
 const Model = use('Model');
 
 class RecordType extends Model {
+  static mapFromDto(recordTypeDto) {
+    return {
+      group_id: recordTypeDto.group.id,
+      typeName: recordTypeDto.typeName
+    };
+  }
+
   group() {
     return this.belongsTo('App/Models/RecordGroup');
   }

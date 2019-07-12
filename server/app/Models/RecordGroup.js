@@ -4,6 +4,13 @@
 const Model = use('Model');
 
 class RecordGroup extends Model {
+  static mapFromDto(recordGroupDto) {
+    return {
+      groupName: recordGroupDto.groupName,
+      isPositive: recordGroupDto.isPositive
+    };
+  }
+
   types() {
     return this.hasMany('App/Models/RecordType');
   }

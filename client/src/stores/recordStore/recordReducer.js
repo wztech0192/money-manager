@@ -8,7 +8,7 @@ import {
   ENTER_RECORD_MONEY,
   DISPLAY_RECORD_ERROR,
   ENTER_RECORD_SUMMARY
-} from '../actionTypes';
+} from '../enums';
 
 const defaultState = {
   selectType: null,

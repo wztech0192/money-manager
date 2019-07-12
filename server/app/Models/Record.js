@@ -4,9 +4,20 @@
 const Model = use('Model');
 
 class Record extends Model {
+  static mapFromDto(recordDto) {
+    return {
+      money: recordDto.recordMoney,
+      date: recordDto.recordDate,
+      summary: recordDto.recordDate,
+      type_id: recordType.id,
+      user_id: recordDto.userID
+    };
+  }
+
   user() {
     return this.belongsTo('App/Models/User');
   }
+
   type() {
     return this.belongsTo('App/Models/RecordType');
   }

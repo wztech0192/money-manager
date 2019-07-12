@@ -24,11 +24,14 @@ class RecordController {
    */
   async index({ request, response, view }) {}
 
+  async getRecordGroups({ auth }) {
+    const currentUser = await auth.getUser();
+    const result = await this.recordService.getRecordGroups();
+    return result;
+  }
+
   /**
-   * Render a form to be used for creating a new record.
-   * GET records/create
-   *
-   * @param {object} ctx
+   * creating a new record.
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    * @param {View} ctx.view
@@ -41,10 +44,50 @@ class RecordController {
       'recordSummary',
       'selectType'
     ]);
-    recordDto.user_id = currentUser.id;
+    recordDto.userID = currentUser.id;
+    const result = await this.recordService.createRecord(recordDto);
+    if (result.isSuccess) {
+      return result.data;
+    } else {
+      response.status(400);
+      return result.errorList;
+    }
+  }
 
-    const result = this.recordService.createNewRecord(recordDto);
-    return result;
+  /**
+   * creating a new record type.
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async createRecordType({ auth, request, response }) {
+    await auth.getUser();
+    const recordTypeDto = request.only(['typeName', 'selectGroup']);
+    const result = await this.recordService.createType(recordTypeDto);
+    if (result.isSuccess) {
+      return result.data;
+    } else {
+      response.status(400);
+      return result.errorList;
+    }
+  }
+
+  /**
+   * creating a new record group.
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async createRecordGroup({ auth, request, response }) {
+    await auth.getUser();
+    const recordGroupDto = request.only(['isPositive', 'groupName']);
+    const result = await this.recordService.createGroup(recordGroupDto);
+    if (result.isSuccess) {
+      return result.data;
+    } else {
+      response.status(400);
+      return result.errorList;
+    }
   }
 
   /**

@@ -22,8 +22,8 @@ class RecordSchema extends Schema {
         .onUpdate('CASCADE');
 
       table.text('summary');
-      table.date('recordDate');
-      table.decimal('recordMoney');
+      table.date('date');
+      table.decimal('money');
       table.increments();
       table.timestamps();
     });

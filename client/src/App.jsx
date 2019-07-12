@@ -2,24 +2,36 @@ import React, { Component } from 'react';
 import Header from './components/Layout/Header';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Container from './components/Layout/Container';
+import GlobalModal from './components/Modals/GlobalModal';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import moment from '@date-io/moment';
-import store from './stores';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
+import { onUserLogin } from './stores/userStore/userAction';
+
+const mapDispatchToProps = { onUserLogin };
 
 class App extends Component {
+  componentDidMount() {
+    this.props.onUserLogin({
+      email: 'weijie0191@gmail.com',
+      password: 'weijiezheng'
+    });
+  }
+
   render() {
     return (
-      <Provider store={store}>
-        <MuiPickersUtilsProvider utils={moment}>
-          <Router>
-            <Header />
-            <Container />
-          </Router>
-        </MuiPickersUtilsProvider>
-      </Provider>
+      <MuiPickersUtilsProvider utils={moment}>
+        <Router>
+          <Header />
+          <Container />
+          <GlobalModal />
+        </Router>
+      </MuiPickersUtilsProvider>
     );
   }
 }
 
-export default App;
+export default connect(
+  false,
+  mapDispatchToProps
+)(App);

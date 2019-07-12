@@ -7,8 +7,10 @@ import {
   ENTER_RECORD_DATE,
   ENTER_RECORD_MONEY,
   ENTER_RECORD_SUMMARY,
+  CREATE_NEW_GROUP,
+  CREATE_NEW_TYPE,
   DISPLAY_RECORD_ERROR
-} from '../actionTypes';
+} from '../enums';
 
 export const onSelectType = e => dispatch =>
   dispatch({
@@ -40,5 +42,11 @@ export const onEnterRecordSummary = e => dispatch =>
 export const onClearRecord = () => dispatch => dispatch({ type: CLEAR_RECORD });
 
 export const onSubmitRecord = () => (dispatch, getState) => {
+  console.log(getState());
+};
+export const onCreateType = () => (dispatch, getState) => {
+  console.log(getState());
+};
+export const onCreateGroup = () => (dispatch, getState) => {
   console.log(getState());
 };
