@@ -1,4 +1,6 @@
-export const SUBMIT_RECORD = 'SUBMIT_RECORD';
+/**
+ * Record Enums
+ */
 export const CLEAR_RECORD = 'CLEAR_RECORD';
 export const SELECT_RECORD_TAB = 'SELECT_RECORD_TAB';
 export const SELECT_RECORD_TYPE = 'SELECT_RECORD_TYPE';
@@ -12,4 +14,10 @@ export const CREATE_NEW_TYPE = 'CREATE_NEW_TYPE';
 export const ON_USER_LOGIN = 'ON_USER_LOGIN';
 export const ON_MODAL_OPEN = 'ON_MODAL_OPEN';
 export const ON_MODAL_CLOSE = 'ON_MODAL_CLOSE';
+export const FETCH_RECORD_GROUPS = 'FETCH_RECORD_GROUPS';
+
+/**
+ * Modal Enums
+ */
 export const ALERT_MODAL = 'ALERT_MODAL';
+export const SUCCESS_MODAL = 'SUCCESS_MODAL';

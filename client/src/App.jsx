@@ -6,9 +6,13 @@ import GlobalModal from './components/Modals/GlobalModal';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import moment from '@date-io/moment';
 import { connect } from 'react-redux';
-import { onUserLogin } from './stores/userStore/userAction';
+import { onUserLogin } from './stores/actions/userAction';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const mapDispatchToProps = { onUserLogin };
+const mapStateToProps = ({ user }) => ({
+  isLogin: !!user.token
+});
 
 class App extends Component {
   componentDidMount() {
@@ -16,6 +20,7 @@ class App extends Component {
       email: 'weijie0191@gmail.com',
       password: 'weijiezheng'
     });
+    this.setState({ login: true });
   }
 
   render() {
@@ -23,7 +28,8 @@ class App extends Component {
       <MuiPickersUtilsProvider utils={moment}>
         <Router>
           <Header />
-          <Container />
+          {this.props.isLogin ? <Container /> : <CircularProgress />}
+
           <GlobalModal />
         </Router>
       </MuiPickersUtilsProvider>
@@ -32,6 +38,6 @@ class App extends Component {
 }
 
 export default connect(
-  false,
+  mapStateToProps,
   mapDispatchToProps
 )(App);

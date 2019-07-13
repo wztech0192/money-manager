@@ -6,7 +6,7 @@ const Model = use('Model');
 class RecordType extends Model {
   static mapFromDto(recordTypeDto) {
     return {
-      group_id: recordTypeDto.group.id,
+      record_group_id: recordTypeDto.recordGroup.id,
       typeName: recordTypeDto.typeName
     };
   }

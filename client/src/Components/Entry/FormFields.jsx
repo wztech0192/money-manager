@@ -13,12 +13,13 @@ import {
   onEnterRecordMoney,
   onEnterRecordDate,
   onEnterRecordSummary
-} from '../../stores/recordStore/recordAction';
+} from '../../stores/actions/recordAction';
 
 const mapStateToProps = ({ record }) => ({
   recordSummary: record.recordSummary,
   recordMoney: record.recordMoney,
-  recordDateTime: record.recordDateTime
+  recordDate: record.recordDate,
+  recordErrors: record.recordErrors
 });
 
 const mapDispatchToProps = {
@@ -35,7 +36,8 @@ class FormField extends PureComponent {
       onEnterRecordSummary,
       recordSummary,
       recordMoney,
-      recordDateTime,
+      recordDate,
+      recordErrors,
       classes
     } = this.props;
 
@@ -43,7 +45,7 @@ class FormField extends PureComponent {
       <Grid container>
         <Grid item xs={7} className={classes.inputGrid}>
           <DateTimePicker
-            value={recordDateTime}
+            value={recordDate}
             onChange={onEnterRecordDate}
             aria-label="date input"
             label="Date"
@@ -69,9 +71,11 @@ class FormField extends PureComponent {
             aria-label="money input"
             className={classes.formControl}
             variant="outlined"
-            label="Money"
+            label="Amount"
             placeholder="0.00"
             value={recordMoney}
+            error={!!recordErrors.money}
+            helperText={recordErrors.money}
             onBlur={onEnterRecordMoney}
             InputProps={{
               classes: {

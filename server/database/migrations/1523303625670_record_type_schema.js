@@ -9,7 +9,7 @@ class RecordTypeSchema extends Schema {
       table.increments();
       table.timestamps();
       table
-        .integer('group_id')
+        .integer('record_group_id')
         .unsigned()
         .references('id')
         .inTable('record_groups')

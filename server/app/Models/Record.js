@@ -8,8 +8,8 @@ class Record extends Model {
     return {
       money: recordDto.recordMoney,
       date: recordDto.recordDate,
-      summary: recordDto.recordDate,
-      type_id: recordType.id,
+      summary: recordDto.recordSummary,
+      record_type_id: recordDto.recordType.id,
       user_id: recordDto.userID
     };
   }

@@ -10,6 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Drawer from '@material-ui/core/Drawer';
 import Navigation from './Navigation';
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
   state = { openNav: false };
@@ -32,7 +33,12 @@ class Header extends Component {
           >
             <Navigation />
           </Drawer>
-          <Button color="inherit" style={{ textTransform: 'none' }}>
+          <Button
+            component={Link}
+            to="/"
+            color="inherit"
+            style={{ textTransform: 'none' }}
+          >
             <Typography variant="h6" noWrap>
               Money Manager
             </Typography>

@@ -1,13 +1,15 @@
 import Http from '../../tools/http';
 import { ON_USER_LOGIN } from '../enums';
-import { showErrorMessage } from '../utilStore/utilAction';
+import { showErrorMessage } from './utilAction';
 
 export const onUserLogin = auth => dispatch => {
-  console.log(auth);
-  Http()
-    .post('/logins', auth)
+  return Http()
+    .post('login', auth)
     .then(({ data }) => {
-      console.log(data);
+      dispatch({
+        type: ON_USER_LOGIN,
+        token: data.token
+      });
     })
     .catch(e => dispatch(showErrorMessage(e)));
 };

@@ -10,11 +10,12 @@ import FormActions from './FormActions';
 import { connect } from 'react-redux';
 import OutIcon from '@material-ui/icons/MoneyOff';
 import InIcon from '@material-ui/icons/MonetizationOn';
+import style from './EntryStyle';
 import {
   onSelectTab,
   onSubmitRecord,
   onClearRecord
-} from '../../stores/recordStore/recordAction';
+} from '../../stores/actions/recordAction';
 
 const mapStateToProps = ({ record }) => ({
   selectTab: record.selectTab
@@ -74,26 +75,6 @@ class EntryForm extends PureComponent {
     );
   }
 }
-
-const style = () => ({
-  Fab: {
-    textAlign: 'center',
-    marginTop: 10
-  },
-  entryContainer: {
-    padding: 10
-  },
-  inputGrid: { padding: '10px 0' },
-  input: {
-    textAlign: 'right'
-  },
-  btnGrid: {
-    paddingTop: 20
-  },
-  chip: {
-    margin: 3
-  }
-});
 
 export default connect(
   mapStateToProps,

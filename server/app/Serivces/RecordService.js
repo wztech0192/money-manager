@@ -1,7 +1,10 @@
-import Record from '../Models/Record';
-import RecordType from '../Models/RecordType';
-import RecordGroup from '../Models/RecordGroup';
-import { successResponse, failResponse } from '../Helpers/CustomResponse';
+const Record = use('App//Models/Record');
+const RecordType = use('App//Models/RecordType');
+const RecordGroup = use('App//Models/RecordGroup');
+
+const { successResponse, failResponse, errorValidator } = use(
+  'App//Helpers/CustomResponse'
+);
 
 class RecordService {
   constructor() {}
@@ -10,14 +13,11 @@ class RecordService {
    * get record groups and types
    */
   async getRecordGroups() {
-    const data = await RecordGroup.all();
+    const data = await RecordGroup.query()
+      .with('types')
+      .fetch();
     if (data) {
-      const groupList = await data.map(async group => ({
-        groupName: group.groupName,
-        groupID: group.id,
-        types: await group.types()
-      }));
-      return groupList;
+      return data;
     }
     return [];
   }
@@ -28,8 +28,9 @@ class RecordService {
    */
   async createRecord(recordDto) {
     recordDto.recordType = await RecordType.find(recordDto.selectType);
-    const errors = this.ValidateRecord(recordDto);
-    if (errors) return failResponse(errors);
+
+    const validator = this.ValidateRecord(recordDto);
+    if (validator.fail) return failResponse(validator.errors);
 
     var record = Record.mapFromDto(recordDto);
     const data = await Record.create(record);
@@ -41,9 +42,11 @@ class RecordService {
    * @param {*} recordTypeDto
    */
   async createType(recordTypeDto) {
-    recordTypeDto.recordGroup = await RecordGroup.find(recordDto.selectGroup);
-    const errors = this.ValidateRecordType(recordTypeDto);
-    if (errors) return failResponse(errors);
+    recordTypeDto.recordGroup = await RecordGroup.find(
+      recordTypeDto.selectGroup
+    );
+    const validator = this.ValidateRecordType(recordTypeDto);
+    if (validator.fail) return failResponse(validator.errors);
 
     var recordType = RecordType.mapFromDto(recordTypeDto);
     const data = await RecordType.create(recordType);
@@ -55,8 +58,8 @@ class RecordService {
    * @param {*} recordGroupDto
    */
   async createGroup(recordGroupDto) {
-    const errors = this.ValidateRecordGroup(recordGroupDto);
-    if (errors) return failResponse(errors);
+    const validator = this.ValidateRecordGroup(recordGroupDto);
+    if (validator.fail) return failResponse(validator.errors);
     var recordGroup = RecordGroup.mapFromDto(recordGroupDto);
     const data = await RecordGroup.create(recordGroup);
     return successResponse(data);
@@ -67,12 +70,12 @@ class RecordService {
    * @param {*} param0
    */
   ValidateRecordGroup({ groupName }) {
-    var errorList = [];
+    const errors = errorValidator();
     if (!groupName) {
-      errorList.push('Record group name must be provided');
+      errors.addError('name', 'Record group name must be provided');
     }
-    if (errorList.length <= 0) return false;
-    return errorList;
+    if (Object.entries(errors).length > 1) return false;
+    return errors;
   }
 
   /**
@@ -80,15 +83,14 @@ class RecordService {
    * @param {*} param0
    */
   ValidateRecordType({ recordGroup, typeName }) {
-    var errorList = [];
+    const validator = errorValidator();
     if (!recordGroup) {
-      errorList.push('Record group must be selected');
+      validator.addError('group', 'Record group must be selected');
     }
     if (!typeName) {
-      errorList.push('Record type name must be provided');
+      validator.addError('name', 'Record type name must be provided');
     }
-    if (errorList.length <= 0) return false;
-    return errorList;
+    return validator;
   }
 
   /**
@@ -96,26 +98,22 @@ class RecordService {
    * @param {*} param0
    */
   ValidateRecord({ recordMoney, recordDate, recordType }) {
-    var errorList = [];
+    const validator = errorValidator();
     if (!recordMoney) {
-      errorList.push('Record money must be provided');
-    } else if (typeof recordMoney !== Number) {
-      errorList.push('Record money must be a number');
+      validator.addError('money', 'Record money must be provided');
+    } else if (typeof recordMoney !== 'number' || isNaN(recordMoney)) {
+      validator.addError('money', 'Record money must be a number');
     }
 
     if (!recordDate) {
-      errorList.push('Record date must be provided');
-    } else if (typeof recordMoney !== Date) {
-      errorList.push('Record date must be in date format');
+      validator.addError('date', 'Record date must be provided');
     }
 
     if (!recordType) {
-      errorList.push('Record type must be valid');
+      validator.addError('type', 'Record type must be provided and valid');
     }
-
-    if (errorList.length <= 0) return false;
-    return errorList;
+    return validator;
   }
 }
 
-export default RecordService;
+module.exports = RecordService;

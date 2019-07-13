@@ -1,9 +1,18 @@
-export const successResponse = data => ({
+exports.successResponse = data => ({
   isSuccess: true,
   data
 });
 
-export const failResponse = errors => ({
+exports.failResponse = errors => ({
   isSuccess: false,
   errors
+});
+
+exports.errorValidator = () => ({
+  errors: {},
+  fail: false,
+  addError(name, msg) {
+    this.fail = true;
+    this.errors[name] = msg;
+  }
 });

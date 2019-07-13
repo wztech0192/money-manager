@@ -6,11 +6,7 @@ export const NumberMask = ({ inputRef, onChange, ...other }) => (
     {...other}
     getInputRef={inputRef}
     onValueChange={values => {
-      onChange({
-        target: {
-          value: values.value
-        }
-      });
+      onChange(values.values);
     }}
     thousandSeparator
   />

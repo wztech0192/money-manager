@@ -6,23 +6,23 @@ import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+let input = '';
 export default class extends PureComponent {
   state = {
-    error: false,
-    input: ''
+    error: false
   };
 
-  validateAndSubmit() {
-    var input = this.state.input.trim();
+  validateAndSubmit = () => {
     if (input !== '') {
       this.props.submitEvent(input);
+      this.props.onCloseModal();
     } else {
       this.setState({ error: true });
     }
-  }
+  };
 
   onInputChange = e => {
-    this.setState({ input: e.target.value });
+    input = e.target.value.trim();
   };
 
   resetError = () => {
@@ -30,6 +30,7 @@ export default class extends PureComponent {
   };
 
   render() {
+    input = '';
     const { open, label, onCloseModal } = this.props;
     return (
       <Dialog open={open} onClose={onCloseModal} fullWidth>
@@ -38,7 +39,7 @@ export default class extends PureComponent {
           <TextField
             autoFocus
             label={`Enter new ${label} name`}
-            onChange={this.onInputChange}
+            onBlur={this.onInputChange}
             onFocus={this.resetError}
             multiline
             fullWidth

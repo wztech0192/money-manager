@@ -16,13 +16,16 @@ const RecordType = use('App/Models/RecordType');
 
 class DefaultSeeder {
   async run() {
-    User.create({
-      first_name: 'Wei',
-      mid_initial: 'J.',
-      last_name: 'Zheng',
-      email: 'weijie0191@gmail.com',
-      password: 'weijiezheng'
-    });
+    User.findOrCreate(
+      { email: 'weijie0191@gmail.com' },
+      {
+        first_name: 'Wei',
+        mid_initial: 'J.',
+        last_name: 'Zheng',
+        email: 'weijie0191@gmail.com',
+        password: 'weijiezheng'
+      }
+    );
 
     const outcomes = [
       {
@@ -63,10 +66,9 @@ class DefaultSeeder {
         isPositive: false,
         groupName: data.group
       });
-      RecordType.createMany(
+      groupResult.types().createMany(
         data.types.map(val => ({
-          typeName: val,
-          group_id: groupResult.id
+          typeName: val
         }))
       );
     }
@@ -76,11 +78,9 @@ class DefaultSeeder {
         isPositive: true,
         groupName: data.group
       });
-
-      RecordType.createMany(
+      groupResult.types().createMany(
         data.types.map(val => ({
-          typeName: val,
-          group_id: groupResult.id
+          typeName: val
         }))
       );
     }

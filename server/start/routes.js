@@ -27,10 +27,10 @@ Route.group(() => {
   /**
    * Record Controller
    */
-  Route.post('record/create', 'RecordController.createRecord');
-  Route.post('type/create', 'RecordController.createType');
-  Route.post('group/create', 'RecordController.createGroup');
-  Route.get('group', 'RecordController.getRecordGroups');
+  Route.post('record/create', 'RecordController.createNewRecord');
+  Route.post('type/create', 'RecordController.createRecordType');
+  Route.post('group/create', 'RecordController.createRecordGroup');
+  Route.get('group/all', 'RecordController.getRecordGroups');
 })
   .middleware('auth')
   .prefix('api');

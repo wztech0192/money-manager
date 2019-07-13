@@ -14,7 +14,7 @@ class RecordSchema extends Schema {
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
       table
-        .integer('type_id')
+        .integer('record_type_id')
         .unsigned()
         .references('id')
         .inTable('record_types')

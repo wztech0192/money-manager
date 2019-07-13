@@ -4,7 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-import RecordService from '../../Serivces/RecordService';
+const RecordService = use('App/Serivces/RecordService');
 
 /**
  * Resourceful controller for interacting with records
@@ -46,12 +46,12 @@ class RecordController {
     ]);
     recordDto.userID = currentUser.id;
     const result = await this.recordService.createRecord(recordDto);
-    if (result.isSuccess) {
-      return result.data;
-    } else {
+    if (!result.isSuccess) {
       response.status(400);
-      return result.errorList;
+      return result.errors;
     }
+
+    return result.data;
   }
 
   /**
@@ -64,12 +64,12 @@ class RecordController {
     await auth.getUser();
     const recordTypeDto = request.only(['typeName', 'selectGroup']);
     const result = await this.recordService.createType(recordTypeDto);
-    if (result.isSuccess) {
-      return result.data;
-    } else {
+    if (!result.isSuccess) {
       response.status(400);
-      return result.errorList;
+      return result.errors;
     }
+
+    return result.data;
   }
 
   /**
@@ -82,12 +82,12 @@ class RecordController {
     await auth.getUser();
     const recordGroupDto = request.only(['isPositive', 'groupName']);
     const result = await this.recordService.createGroup(recordGroupDto);
-    if (result.isSuccess) {
-      return result.data;
-    } else {
+    if (!result.isSuccess) {
       response.status(400);
-      return result.errorList;
+      return result.errors;
     }
+
+    return result.data;
   }
 
   /**

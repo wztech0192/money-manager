@@ -5,47 +5,29 @@ import {
   onSelectType,
   onSelectGroup,
   onCreateType,
-  onCreateGroup
-} from '../../stores/recordStore/recordAction';
+  onCreateGroup,
+  fetchRecordGroups
+} from '../../stores/actions/recordAction';
 import CreateGTModal from '../Modals/CreateGTModal';
+import Typography from '@material-ui/core/Typography';
+
+const CustomChip = props => <Chip {...props} clickable size="small" />;
 
 const mapStateToProps = ({ record }) => ({
   selectGroup: record.selectGroup,
-  selectType: record.selectType
+  selectType: record.selectType,
+  groups: record.groups,
+  isPositive: record.selectTab,
+  recordErrors: record.recordErrors
 });
 
 const mapDispatchToProps = {
   onSelectType,
   onSelectGroup,
   onCreateType,
-  onCreateGroup
+  onCreateGroup,
+  fetchRecordGroups
 };
-
-const chips = [
-  {
-    group: 'All'
-  },
-  {
-    group: 'Home',
-    types: ['Buy TV', 'Buy Table', 'House Rent']
-  },
-  { group: 'Utility', types: ['Water Bill', 'Electric Bill', 'Utility Bill'] },
-  {
-    group: 'Other',
-
-    types: ['Buy Something', 'Eat Something', 'Lost Money']
-  },
-  {
-    group: 'Restaurant',
-
-    types: ['Hibachi House', 'Apple Bee', 'McDonald', 'Pizza Hub']
-  },
-  {
-    group: 'Shopping',
-
-    types: ['Walmart', 'eBay', 'Amazon', 'ECommerce']
-  }
-];
 
 class TypeSelector extends PureComponent {
   state = {
@@ -56,8 +38,12 @@ class TypeSelector extends PureComponent {
     }
   };
 
+  componentDidMount() {
+    //fetch data
+    this.props.fetchRecordGroups();
+  }
+
   onOpenModal = type => () => {
-    console.log(type);
     this.setState(state => ({
       openModal: !state.modalOpen,
       modalInfo: {
@@ -78,56 +64,65 @@ class TypeSelector extends PureComponent {
       onSelectType,
       onSelectGroup,
       selectGroup,
-      selectType
+      selectType,
+      isPositive,
+      groups,
+      recordErrors
     } = this.props;
+    const filteredGroup = groups.filter(
+      group => group.isPositive === isPositive
+    );
+
     return (
       <Fragment>
-        <div>
-          {chips.map(({ group }) => (
-            <Chip
-              key={group}
-              clickable
+        <div className={classes.groupGrid}>
+          <CustomChip
+            label="All"
+            variant="outlined"
+            color={selectGroup === -1 ? 'primary' : 'default'}
+            className={classes.chip}
+            onClick={() => onSelectGroup(-1)}
+          />
+          {filteredGroup.map(group => (
+            <CustomChip
+              key={group.id}
+              label={group.groupName}
               variant="outlined"
-              label={group}
-              size="small"
-              color={selectGroup === group ? 'primary' : 'default'}
+              color={selectGroup === group.id ? 'primary' : 'default'}
               className={classes.chip}
-              onClick={onSelectGroup}
+              onClick={() => onSelectGroup(group.id)}
             />
           ))}
-          <Chip
-            clickable
-            variant="outlined"
+          <CustomChip
             label="+"
-            size="small"
             className={classes.chip}
+            variant="outlined"
             onClick={this.onOpenModal('Group')}
           />
         </div>
         <hr />
 
-        <div>
-          {chips.map(
-            ({ group, types }) =>
-              (selectGroup === 'All' || selectGroup === group) &&
+        {recordErrors.type && (
+          <Typography color="secondary">* {recordErrors.type}</Typography>
+        )}
+        <div className={classes.typeGrid}>
+          {filteredGroup.map(
+            ({ id: groupId, types }) =>
+              (selectGroup === -1 || selectGroup === groupId) &&
               types &&
               types.map(type => (
-                <Chip
-                  key={type}
-                  clickable
-                  label={type}
-                  size="small"
-                  color={selectType === type ? 'primary' : 'default'}
+                <CustomChip
+                  key={type.id}
+                  label={type.typeName}
+                  color={selectType === type.id ? 'primary' : 'default'}
                   className={classes.chip}
-                  onClick={onSelectType}
+                  onClick={() => onSelectType(type.id)}
                 />
               ))
           )}
-          {selectGroup !== 'All' && (
-            <Chip
-              clickable
+          {selectGroup !== -1 && (
+            <CustomChip
               label="+"
-              size="small"
               className={classes.chip}
               onClick={this.onOpenModal('Type')}
             />
