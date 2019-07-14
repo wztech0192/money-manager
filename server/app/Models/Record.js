@@ -7,7 +7,7 @@ class Record extends Model {
   static mapFromDto(recordDto) {
     return {
       money: recordDto.recordMoney,
-      date: recordDto.recordDate,
+      date: new Date(recordDto.recordDate),
       summary: recordDto.recordSummary,
       record_type_id: recordDto.recordType.id,
       user_id: recordDto.userID

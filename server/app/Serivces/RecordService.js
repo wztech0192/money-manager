@@ -28,7 +28,6 @@ class RecordService {
    */
   async createRecord(recordDto) {
     recordDto.recordType = await RecordType.find(recordDto.selectType);
-
     const validator = this.ValidateRecord(recordDto);
     if (validator.fail) return failResponse(validator.errors);
 
@@ -105,7 +104,7 @@ class RecordService {
       validator.addError('money', 'Record money must be a number');
     }
 
-    if (!recordDate) {
+    if (isNaN(Date.parse(recordDate))) {
       validator.addError('date', 'Record date must be provided');
     }
 
