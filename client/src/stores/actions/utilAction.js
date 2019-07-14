@@ -1,9 +1,11 @@
 import { ON_MODAL_CLOSE, ON_MODAL_OPEN, ALERT_MODAL } from '../enums';
 
 export const showErrorMessage = response => {
-  const errorMessage = response.data.error
-    ? response.data.error.message
-    : response.statusText;
+  const errorMessage = response
+    ? response.data.error
+      ? response.data.error.message
+      : response.statusText
+    : 'Server is not responding....';
   return {
     type: ON_MODAL_OPEN,
     modalInfo: {
