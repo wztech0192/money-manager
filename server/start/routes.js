@@ -15,13 +15,14 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
+const Helpers = use('Helpers');
 
 Route.group(() => {
   /**
    * Record Controller
    */
   Route.post('login', 'UserController.login');
-}).prefix('api');
+}).prefix('~weiZ/moma/api');
 
 Route.group(() => {
   /**
@@ -33,4 +34,8 @@ Route.group(() => {
   Route.get('group/all', 'RecordController.getRecordGroups');
 })
   .middleware('auth')
-  .prefix('api');
+  .prefix('~weiZ/moma/api');
+
+Route.any('*', ({ response }) =>
+  response.download(Helpers.publicPath('index.html'))
+);

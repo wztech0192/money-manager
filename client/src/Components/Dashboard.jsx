@@ -4,8 +4,6 @@ import EntryForm from './Entry/EntryForm';
 import { Bar } from 'react-chartjs-2';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/light.css';
-import TextField from '@material-ui/core/TextField';
-import CalendarIcon from '@material-ui/icons/CalendarToday';
 
 const data = {
   datasets: [

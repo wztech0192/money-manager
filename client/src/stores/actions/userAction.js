@@ -11,5 +11,5 @@ export const onUserLogin = auth => dispatch => {
         token: data.token
       });
     })
-    .catch(e => dispatch(showErrorMessage(e)));
+    .catch(e => dispatch(showErrorMessage(e.response)));
 };

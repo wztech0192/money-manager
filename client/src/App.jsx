@@ -7,7 +7,8 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import moment from '@date-io/moment';
 import { connect } from 'react-redux';
 import { onUserLogin } from './stores/actions/userAction';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { baseRoute } from './tools/params';
+import LoadingIndicator from './components/Utilities/LoadingIndicator';
 
 const mapDispatchToProps = { onUserLogin };
 const mapStateToProps = ({ user }) => ({
@@ -22,17 +23,22 @@ class App extends Component {
     });
     this.setState({ login: true });
   }
-
   render() {
-    return (
-      <MuiPickersUtilsProvider utils={moment}>
-        <Router>
-          <Header />
-          {this.props.isLogin ? <Container /> : <CircularProgress />}
+    const { isLogin } = this.props;
 
-          <GlobalModal />
-        </Router>
-      </MuiPickersUtilsProvider>
+    return (
+      <>
+        {isLogin && (
+          <MuiPickersUtilsProvider utils={moment}>
+            <Router basename={baseRoute}>
+              <Header />
+              <Container />
+            </Router>
+          </MuiPickersUtilsProvider>
+        )}
+        <GlobalModal />
+        <LoadingIndicator hide={isLogin} size={100} />
+      </>
     );
   }
 }
