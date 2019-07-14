@@ -1,4 +1,4 @@
-import { ON_MODAL_OPEN, ON_MODAL_CLOSE, ALERT_MODAL, ON_ERROR } from '../enums';
+import { ON_MODAL_OPEN, ON_MODAL_CLOSE } from '../enums';
 
 const defaultState = {
   modalInfo: {
