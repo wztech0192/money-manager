@@ -17,6 +17,11 @@ export const ON_MODAL_CLOSE = 'ON_MODAL_CLOSE';
 export const FETCH_RECORD_GROUPS = 'FETCH_RECORD_GROUPS';
 
 /**
+ * Review Enums
+ */
+export const FETCH_RECORDS = 'FETCH_RECORDS';
+
+/**
  * Modal Enums
  */
 export const ALERT_MODAL = 'ALERT_MODAL';

@@ -23,6 +23,43 @@ class RecordService {
   }
 
   /**
+   * get all records associate to the user
+   * @param {int} userID
+   */
+  async getRecords(user) {
+    const data = await user
+      .records()
+      .with('type')
+      .fetch();
+    if (data) {
+      return Record.mapToDtos(data.rows);
+    }
+    return [];
+  }
+
+  /**
+   * get all records associate to the user
+   * @param {int} userID
+   */
+  async getRecordsByRange(user, range) {
+    try {
+      const daterange = [new Date(range.start), new Date(range.end)];
+      const data = await user
+        .records()
+        .whereBetween('date', daterange)
+        .orderBy('date')
+        .with('type')
+        .fetch();
+      if (data) {
+        return Record.mapToDtos(data.rows);
+      }
+      return [];
+    } catch (e) {
+      return failResponse();
+    }
+  }
+
+  /**
    *
    * @param {*} recordDto
    */

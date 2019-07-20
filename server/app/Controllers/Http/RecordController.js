@@ -25,9 +25,25 @@ class RecordController {
   async index({ request, response, view }) {}
 
   async getRecordGroups({ auth }) {
-    const currentUser = await auth.getUser();
+    await auth.getUser();
     const result = await this.recordService.getRecordGroups();
     return result;
+  }
+
+  async getRecords({ auth }) {
+    const user = await auth.getUser();
+    const result = await this.recordService.getRecords(user);
+    return result;
+  }
+
+  async getRecordsByRange({ auth, params }) {
+    const user = await auth.getUser();
+    const result = await this.recordService.getRecordsByRange(user, params);
+    return {
+      records: result,
+      start: params.start,
+      end: params.end
+    };
   }
 
   /**

@@ -7,8 +7,8 @@ import {
   onCreateType,
   onCreateGroup,
   fetchRecordGroups
-} from '../../stores/actions/recordAction';
-import CreateGTModal from '../Modals/CreateGTModal';
+} from 'stores/actions/recordAction';
+import CreateGTModal from 'components/Modals/CreateGTModal';
 import Typography from '@material-ui/core/Typography';
 
 const CustomChip = props => <Chip {...props} clickable size="small" />;

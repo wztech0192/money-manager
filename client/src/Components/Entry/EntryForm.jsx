@@ -15,7 +15,7 @@ import {
   onSelectTab,
   onSubmitRecord,
   onClearRecord
-} from '../../stores/actions/recordAction';
+} from 'stores/actions/recordAction';
 
 const mapStateToProps = ({ record }) => ({
   selectTab: record.selectTab

@@ -1,13 +1,16 @@
-import { FETCH_RECORD_GROUPS, FETCH_RECORDS } from '../enums';
+import { FETCH_RECORDS } from 'stores/enums';
 
-const defaultState = {};
+const defaultState = { records: [] };
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case FETCH_RECORD_GROUPS:
-      return { ...state, token: action.token };
     case FETCH_RECORDS:
-
+      return {
+        ...state,
+        records: action.records,
+        start: action.start,
+        end: action.end
+      };
     default:
       return state;
   }

@@ -6,9 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
-import { onCloseModal } from '../../stores/actions/utilAction';
+import { onCloseModal } from 'stores/actions/utilAction';
 import { connect } from 'react-redux';
-import { ALERT_MODAL, SUCCESS_MODAL } from '../../stores/enums';
+import { ALERT_MODAL, SUCCESS_MODAL } from 'stores/enums';
 
 const mapStateToProps = ({ util }) => util.modalInfo;
 const mapDispatchToProps = { onCloseModal };

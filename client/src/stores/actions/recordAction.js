@@ -1,4 +1,4 @@
-import Http from '../../tools/http';
+import Http from 'tools/http';
 import {
   CLEAR_RECORD,
   SELECT_RECORD_TYPE,
@@ -60,7 +60,7 @@ export const onEnterRecordSummary = e => dispatch =>
 export const onCreateType = typeName => (dispatch, getState) => {
   const { selectGroup, groups } = getState().record;
   return Http()
-    .post('type/create', {
+    .post('type', {
       typeName,
       selectGroup
     })
@@ -77,7 +77,7 @@ export const onCreateType = typeName => (dispatch, getState) => {
 export const onCreateGroup = groupName => (dispatch, getState) => {
   const { selectTab } = getState().record;
   return Http()
-    .post('group/create', {
+    .post('group', {
       groupName,
       isPositive: selectTab
     })
@@ -93,7 +93,7 @@ export const onCreateGroup = groupName => (dispatch, getState) => {
 export const onSubmitRecord = () => (dispatch, getState) => {
   const record = getState().record;
   return Http()
-    .post('record/create', {
+    .post('record', {
       recordMoney:
         record.selectTab === 0 ? -record.recordMoney : record.recordMoney,
       recordDate: record.recordDate,

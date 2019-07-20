@@ -13,7 +13,7 @@ import {
   onEnterRecordMoney,
   onEnterRecordDate,
   onEnterRecordSummary
-} from '../../stores/actions/recordAction';
+} from 'stores/actions/recordAction';
 
 const mapStateToProps = ({ record }) => ({
   recordSummary: record.recordSummary,

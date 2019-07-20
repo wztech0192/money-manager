@@ -28,9 +28,11 @@ Route.group(() => {
   /**
    * Record Controller
    */
-  Route.post('record/create', 'RecordController.createNewRecord');
-  Route.post('type/create', 'RecordController.createRecordType');
-  Route.post('group/create', 'RecordController.createRecordGroup');
+  Route.get('record/all', 'RecordController.getRecords');
+  Route.get('record/range/:start/:end', 'RecordController.getRecordsByRange');
+  Route.post('record', 'RecordController.createNewRecord');
+  Route.post('type', 'RecordController.createRecordType');
+  Route.post('group', 'RecordController.createRecordGroup');
   Route.get('group/all', 'RecordController.getRecordGroups');
 })
   .middleware('auth')

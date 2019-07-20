@@ -14,6 +14,19 @@ class Record extends Model {
     };
   }
 
+  static mapToDtos(records) {
+    return records.map(val => ({
+      datetime: val.date,
+      date: val.date.toLocaleDateString(),
+      money: val.money,
+      summary: val.summary,
+      typeID: val.type.id,
+      typeName: val.type.name,
+      groupID: val.type.record_group_id,
+      isPositive: val.money < 0
+    }));
+  }
+
   user() {
     return this.belongsTo('App/Models/User');
   }

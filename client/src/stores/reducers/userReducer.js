@@ -1,4 +1,4 @@
-import { ON_USER_LOGIN } from '../enums';
+import { ON_USER_LOGIN } from 'stores/enums';
 
 const defaultState = {};
 

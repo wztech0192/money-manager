@@ -10,7 +10,7 @@ import {
   FETCH_RECORD_GROUPS,
   CREATE_NEW_GROUP,
   CREATE_NEW_TYPE
-} from '../enums';
+} from 'stores/enums';
 
 const defaultState = {
   selectType: null,

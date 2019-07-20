@@ -1,5 +1,5 @@
-import Http from '../../tools/http';
-import { ON_USER_LOGIN } from '../enums';
+import Http from 'tools/http';
+import { ON_USER_LOGIN } from 'stores/enums';
 import { showErrorMessage } from './utilAction';
 
 export const onUserLogin = auth => dispatch => {
