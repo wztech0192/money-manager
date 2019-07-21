@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Bar } from 'react-chartjs-2';
+import moment from 'moment';
+import { dateFormat } from 'tools/params';
 
 const options = {
   legend: { display: true, position: 'bottom' },
@@ -81,16 +83,17 @@ export class BarChart extends PureComponent {
   };
 
   componentWillReceiveProps({ records, start, end }) {
-    start = new Date(start);
-    end = new Date(end);
+    start = moment(start, dateFormat);
+    end = moment(end, dateFormat);
     const labels = [];
     const outcome = [];
     const sum = [];
     const income = [];
     let tempDate;
     let tempSum = 0;
+    const format = 'M/D/YYYY';
     for (let i = 0; start <= end; i++) {
-      tempDate = start.toLocaleDateString();
+      tempDate = start.format(format);
       outcome.push(0);
       income.push(0);
       labels.push(tempDate);
@@ -110,7 +113,7 @@ export class BarChart extends PureComponent {
         }
         sum.push(newSum);
       }
-      start.setDate(start.getDate() + 1);
+      start.add(1, 'days');
     }
     this.setState({
       outcome,
