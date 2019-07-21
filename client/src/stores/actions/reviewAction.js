@@ -6,8 +6,6 @@ export const fetchRecords = () => dispatch => {
   Http()
     .get(`record/all`)
     .then(({ data }) => {
-      console.log('2');
-      console.log(Object.keys(data));
       dispatch({ type: FETCH_RECORDS, records: data });
     })
     .catch(e => dispatch(showErrorMessage(e.response)));

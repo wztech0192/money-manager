@@ -8,11 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import Popover from '@material-ui/core/Popover';
 
+const format = 'MM/DD/YYYY';
 const defaultRange = [
   moment()
     .subtract(6, 'days')
-    .format('MM/DD/YYYY'),
-  moment().format('MM/DD/YYYY')
+    .format(format),
+  moment().format(format)
 ];
 
 export class DateRangeSelector extends PureComponent {
@@ -68,8 +69,8 @@ export class DateRangeSelector extends PureComponent {
   onCalenderSelect = range => {
     if (range.length > 1) {
       const formattedRange = [
-        range[0].toLocaleDateString(),
-        range[1].toLocaleDateString()
+        moment(range[0], format).format(format),
+        moment(range[1], format).format(format)
       ];
       this.setState({
         range: formattedRange,
@@ -84,8 +85,8 @@ export class DateRangeSelector extends PureComponent {
   rangeChange = e => {
     const selected = e.target.textContent;
     const range = this.rangeOptions[selected]();
-    range[0] = range[0].format('MM/DD/YYYY');
-    range[1] = range[1].format('MM/DD/YYYY');
+    range[0] = range[0].format(format);
+    range[1] = range[1].format(format);
     if (range) {
       this.setState({
         range,
