@@ -1,36 +1,41 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import EntryForm from './Entry/EntryForm';
-
 import { connect } from 'react-redux';
-import { fetchRecordsByRange } from 'stores/actions/reviewAction';
+import { setFilterRange, fetchRecords } from 'stores/actions/reviewAction';
 import DateRangeSelector from 'components/Utilities/DateRangeSelector';
 import BarChart from 'components/Charts/BarChart';
+import { updatePageTitle } from 'tools/params';
 
 const mapStateToProps = ({ review }) => ({
-  records: review.records
+  records: review.records,
+  start: review.start,
+  end: review.end
 });
 
 const mapDispatchToProps = {
-  fetchRecordsByRange
+  setFilterRange,
+  fetchRecords
 };
 
-class Home extends Component {
+class Dashboard extends Component {
   _handleDateRangeChange = e => {};
 
   componentDidMount() {
-    this.props.fetchRecordsByRange();
+    updatePageTitle('Dashboard');
+    this.props.fetchRecords();
   }
 
   render() {
+    const { records, start, end } = this.props;
     return (
       <div>
-        <Typography variant="h5" align="center">
-          Dashboard
-        </Typography>
-        <DateRangeSelector />
-        <BarChart />
-        <EntryForm />
+        <div className="max-width">
+          <DateRangeSelector onDateChange={this.props.setFilterRange} />
+          <br />
+          <BarChart records={records} start={start} end={end} />
+          <br />
+          <EntryForm />
+        </div>
       </div>
     );
   }
@@ -39,4 +44,4 @@ class Home extends Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(Dashboard);

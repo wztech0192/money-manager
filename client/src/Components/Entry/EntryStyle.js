@@ -21,7 +21,7 @@ export default () => ({
     overflow: 'auto'
   },
   typeGrid: {
-    height: 155,
+    maxHeight: 155,
     overflow: 'auto'
   }
 });

@@ -20,6 +20,7 @@ export const FETCH_RECORD_GROUPS = 'FETCH_RECORD_GROUPS';
  * Review Enums
  */
 export const FETCH_RECORDS = 'FETCH_RECORDS';
+export const SET_FILTER_RANGE = 'SET_FILTER_RANGE';
 
 /**
  * Modal Enums

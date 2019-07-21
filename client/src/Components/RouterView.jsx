@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import EntryForm from './Entry';
+import EntryForm from './Entry/EntryForm';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 class RouterView extends Component {

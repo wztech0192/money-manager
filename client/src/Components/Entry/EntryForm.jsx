@@ -16,6 +16,7 @@ import {
   onSubmitRecord,
   onClearRecord
 } from 'stores/actions/recordAction';
+import { updatePageTitle } from 'tools/params';
 
 const mapStateToProps = ({ record }) => ({
   selectTab: record.selectTab
@@ -23,6 +24,10 @@ const mapStateToProps = ({ record }) => ({
 const mapDispatchToProps = { onSelectTab, onSubmitRecord, onClearRecord };
 
 class EntryForm extends PureComponent {
+  componentDidMount() {
+    updatePageTitle('Record Entry');
+  }
+
   render() {
     const {
       classes,
@@ -32,46 +37,48 @@ class EntryForm extends PureComponent {
       onClearRecord
     } = this.props;
     return (
-      <Grid container>
-        <Grid item xs={12}>
-          <Paper square>
-            <Tabs
-              aria-label="select income or outcome"
-              value={selectTab}
-              onChange={onSelectTab}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-            >
-              <Tab label="Out" icon={<OutIcon />} />
-              <Tab label="In" icon={<InIcon />} />
-            </Tabs>
-          </Paper>
+      <div>
+        <Grid container className="max-width">
+          <Grid item xs={12}>
+            <Paper square>
+              <Tabs
+                aria-label="select income or outcome"
+                value={selectTab}
+                onChange={onSelectTab}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+              >
+                <Tab label="Out" icon={<OutIcon />} />
+                <Tab label="In" icon={<InIcon />} />
+              </Tabs>
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper square className={classes.entryContainer}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TypeSelector
+                    aria-label="select outcome/income type"
+                    classes={classes}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormFields aria-label="all form fields" classes={classes} />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormActions
+                    aria-label="all form actions such as submit and clear"
+                    classes={classes}
+                    onSubmitRecord={onSubmitRecord}
+                    onClearRecord={onClearRecord}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Paper square className={classes.entryContainer}>
-            <Grid container>
-              <Grid item xs={12}>
-                <TypeSelector
-                  aria-label="select outcome/income type"
-                  classes={classes}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormFields aria-label="all form fields" classes={classes} />
-              </Grid>
-              <Grid item xs={12}>
-                <FormActions
-                  aria-label="all form actions such as submit and clear"
-                  classes={classes}
-                  onSubmitRecord={onSubmitRecord}
-                  onClearRecord={onClearRecord}
-                />
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 }

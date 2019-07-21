@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 const options = {
@@ -11,7 +9,10 @@ const options = {
         stacked: true,
         ticks: {
           autoSkip: true,
-          maxTicksLimit: 7
+          maxTicksLimit: 10
+        },
+        scaleLabel: {
+          display: true
         }
       }
     ],
@@ -19,12 +20,15 @@ const options = {
       {
         stacked: true,
         ticks: {
-          autoSkip: true
+          autoSkip: true,
+          maxTicksLimit: 7,
+          userCallback: function(value) {
+            return '$ ' + value;
+          }
         }
       }
     ]
   },
-
   maintainAspectRatio: true,
   tooltips: { mode: 'x' }
 };
@@ -51,16 +55,16 @@ const data = {
       data: [],
       label: 'Sum',
       borderWidth: 2,
-      backgroundColor: 'rgba(63, 81, 181,0.6)',
+      backgroundColor: 'rgba(63, 81, 181,0.05)',
       borderColor: '#3f51b5',
       type: 'line',
-      fill: false
+      fill: true
     }
   ],
   labels: []
 };
 
-export class BarChart extends Component {
+export class BarChart extends PureComponent {
   state = {
     outcome: [],
     income: [],
@@ -77,75 +81,48 @@ export class BarChart extends Component {
   };
 
   componentWillReceiveProps({ records, start, end }) {
-    console.log(start);
-    if (records && records.length > 0) {
-      let i = 0,
-        j = 0,
-        d = 0;
-      start = new Date(start);
-      end = new Date(end);
-      const labels = [],
-        outcome = [],
-        sum = [],
-        income = [];
-      let tempDate,
-        tempSum = 0,
-        enter = false;
-      while (start <= end) {
-        tempDate = start.toLocaleDateString();
-        outcome[i] = 0;
-        income[i] = 0;
-        while (records[j] && tempDate === records[j].date) {
-          enter = true;
-          if (!sum[d]) {
-            sum[d] = {
-              x: tempDate,
-              y: tempSum
-            };
-          }
-          if (records[j].money >= 0) {
-            income[i] += records[j].money;
+    start = new Date(start);
+    end = new Date(end);
+    const labels = [];
+    const outcome = [];
+    const sum = [];
+    const income = [];
+    let tempDate;
+    let tempSum = 0;
+    for (let i = 0; start <= end; i++) {
+      tempDate = start.toLocaleDateString();
+      outcome.push(0);
+      income.push(0);
+      labels.push(tempDate);
+      if (records[tempDate]) {
+        const newSum = {
+          x: tempDate,
+          y: tempSum
+        };
+        for (let el of records[tempDate]) {
+          if (el.money >= 0) {
+            income[i] += el.money;
           } else {
-            outcome[i] += records[j].money;
+            outcome[i] += el.money;
           }
-          tempSum += records[j].money;
-          sum[d].y = tempSum;
-          j++;
+          tempSum += el.money;
+          newSum.y = tempSum;
         }
-        if (enter) {
-          d++;
-          enter = false;
-        }
-
-        labels[i] = tempDate;
-        start.setDate(start.getDate() + 1);
-        i++;
+        sum.push(newSum);
       }
-      this.setState({
-        outcome,
-        income,
-        sum,
-        labels
-      });
+      start.setDate(start.getDate() + 1);
     }
+    this.setState({
+      outcome,
+      income,
+      sum,
+      labels
+    });
   }
 
   render() {
-    return (
-      <div>
-        <Bar data={this.mapData()} height={200} options={options} />
-      </div>
-    );
+    return <Bar data={this.mapData()} height={200} options={options} />;
   }
 }
 
-const mapStateToProps = ({ review }) => ({
-  records: review.records,
-  start: review.start,
-  end: review.end
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(BarChart);
+export default BarChart;

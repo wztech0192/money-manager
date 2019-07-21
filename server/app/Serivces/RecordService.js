@@ -44,6 +44,7 @@ class RecordService {
   async getRecordsByRange(user, range) {
     try {
       const daterange = [new Date(range.start), new Date(range.end)];
+      daterange[1].setHours(23, 59, 59);
       const data = await user
         .records()
         .whereBetween('date', daterange)

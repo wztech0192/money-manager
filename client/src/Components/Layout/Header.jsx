@@ -3,14 +3,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Drawer from '@material-ui/core/Drawer';
 import Navigation from './Navigation';
-import { Link } from 'react-router-dom';
 
 class Header extends Component {
   state = { openNav: false };
@@ -33,16 +31,10 @@ class Header extends Component {
           >
             <Navigation />
           </Drawer>
-          <Button
-            component={Link}
-            to="/"
-            color="inherit"
-            style={{ textTransform: 'none' }}
-          >
-            <Typography variant="h6" noWrap>
-              Money Manager
-            </Typography>
-          </Button>
+          <Typography variant="h6" noWrap id="title">
+            {document.title}
+          </Typography>
+
           <div style={{ flexGrow: 1 }} />
           <IconButton color="inherit">
             <Badge badgeContent={17} color="secondary">

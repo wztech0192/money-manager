@@ -15,6 +15,7 @@ import {
   ON_MODAL_OPEN
 } from '../enums';
 import { showErrorMessage } from './utilAction';
+import { fetchRecords } from './reviewAction';
 
 export const fetchRecordGroups = () => dispatch =>
   Http()
@@ -114,6 +115,7 @@ export const onSubmitRecord = () => (dispatch, getState) => {
       dispatch({
         type: CLEAR_RECORD
       });
+      fetchRecords()(dispatch);
     })
     .catch(({ response }) =>
       response.status === 400
