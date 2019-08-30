@@ -22,7 +22,7 @@ Route.group(() => {
    * Record Controller
    */
   Route.post('login', 'UserController.login');
-}).prefix('~weiZ/moma/api');
+}).prefix('moma/api');
 
 Route.group(() => {
   /**
@@ -36,7 +36,7 @@ Route.group(() => {
   Route.get('group/all', 'RecordController.getRecordGroups');
 })
   .middleware('auth')
-  .prefix('~weiZ/moma/api');
+  .prefix('moma/api');
 
 Route.any('*', ({ response }) =>
   response.download(Helpers.publicPath('index.html'))

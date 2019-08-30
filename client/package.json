@@ -2,7 +2,7 @@
   "name": "template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/~weiZ/money-manager/public",
+  "homepage": "/money-manager",
   "proxy": "http://localhost:3334",
   "dependencies": {
     "@date-io/moment": "^1.3.8",
